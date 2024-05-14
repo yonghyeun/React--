@@ -1,19 +1,47 @@
-import { ReactNode } from 'react';
+import { memo, useEffect, useState } from 'react';
 
-const Container: React.FC<{ children: ReactNode }> = ({ children }) => {
-  return <div>{children}</div>;
+type Props = {
+  counter: number;
 };
 
-const Title: React.FC<{ text: string }> = ({ text }) => {
-  return <h1>{text}</h1>;
+const Component = memo((props: Props) => {
+  useEffect(() => {
+    console.log('Component has been re-rendered!');
+  });
+
+  return <h1>{props.counter}</h1>;
+});
+
+type DeepProps = {
+  counter: {
+    counter: number;
+  };
 };
+
+const DeepComponent = memo((props: DeepProps) => {
+  useEffect(() => {
+    console.log('Deep Component has been re-rendered!');
+  });
+
+  return <h1>{props.counter.counter}</h1>;
+});
 
 function App() {
+  const [, setCounter] = useState(0);
+
+  const handleClick = () => {
+    setCounter((prev) => prev + 1);
+  };
+
   return (
-    <Container>
-      <Title text='안녕하세요~!' />
-    </Container>
+    <div>
+      <Component counter={100} />
+      <DeepComponent counter={{ counter: 100 }} />
+      <button onClick={handleClick}>+</button>
+    </div>
   );
 }
+
+
 
 export default App;
