@@ -1,47 +1,20 @@
-import { memo, useEffect, useState } from 'react';
-
-type Props = {
-  counter: number;
+const FirstComponent = ({ content }: { content: string }) => {
+  return <h1>{content}</h1>;
 };
 
-const Component = memo((props: Props) => {
-  useEffect(() => {
-    console.log('Component has been re-rendered!');
-  });
-
-  return <h1>{props.counter}</h1>;
-});
-
-type DeepProps = {
-  counter: {
-    counter: number;
-  };
+const SecondComponent = ({ text }: { text: string }) => {
+  return <h2>{text}</h2>;
 };
 
-const DeepComponent = memo((props: DeepProps) => {
-  useEffect(() => {
-    console.log('Deep Component has been re-rendered!');
-  });
-
-  return <h1>{props.counter.counter}</h1>;
-});
-
-function App() {
-  const [, setCounter] = useState(0);
-
-  const handleClick = () => {
-    setCounter((prev) => prev + 1);
-  };
-
+const App = () => {
   return (
     <div>
-      <Component counter={100} />
-      <DeepComponent counter={{ counter: 100 }} />
-      <button onClick={handleClick}>+</button>
+      <FirstComponent content='하이~!' />
+      <SecondComponent text='방가루' />
     </div>
   );
-}
+};
 
-
+console.log(App());
 
 export default App;
